@@ -5,6 +5,8 @@ from engine import WilloughbyEngine
 from engine import SternmanEngine
 from battery import SpindlerBattery
 from battery import NubbinBattery
+from tires import CarriganTires
+from tires import OctoprimeTires
 
 
 class Serviceable(ABC):
@@ -13,9 +15,10 @@ class Serviceable(ABC):
         pass
 
 class Car(Serviceable):
-    def __init__(self, engine, battery):
+    def __init__(self, engine, battery, tires):
         self.engine = engine
         self.battery = battery
+        self.tires = tires
 
     def needs_service(self) -> bool:
         return self.engine.needs_service() or self.battery.needs_service()
@@ -23,33 +26,38 @@ class Car(Serviceable):
 class CarFactory:
 
     @staticmethod
-    def create_calliope(current_date, last_serviced, current_mileage, last_service_mileage) -> Car:
+    def create_calliope(current_date, last_serviced, current_mileage, last_service_mileage, tire_wear) -> Car:
         engine = CapuletEngine(last_service_mileage, current_mileage)
         battery = SpindlerBattery(last_serviced, current_date)
-        return Car(engine, battery)
+        tires = CarriganTires(tire_wear)
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_glissade(current_date, last_serviced, current_mileage, last_service_mileage) -> Car:
+    def create_glissade(current_date, last_serviced, current_mileage, last_service_mileage, tire_wear) -> Car:
         engine = WilloughbyEngine(last_service_mileage, current_mileage)
         battery = SpindlerBattery(last_serviced, current_date)
-        return Car(engine, battery)
+        tires = OctoprimeTires(tire_wear)
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_palindrome(current_date, last_serviced, warning_light_on) -> Car:
+    def create_palindrome(current_date, last_serviced, warning_light_on, tire_wear) -> Car:
         engine = SternmanEngine(warning_light_on)
         battery = SpindlerBattery(last_serviced, current_date)
-        return Car(engine, battery)
+        tires = CarriganTires(tire_wear)
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_thovex(current_date, last_serviced, current_mileage, last_service_mileage) -> Car:
+    def create_thovex(current_date, last_serviced, current_mileage, last_service_mileage, tire_wear) -> Car:
         engine = CapuletEngine(last_service_mileage, current_mileage)
         battery = NubbinBattery(last_serviced, current_date)
-        return Car(engine, battery)
+        tires = CarriganTires(tire_wear)
+        return Car(engine, battery, tires)
 
     @staticmethod
-    def create_glissade(current_date, last_serviced, current_mileage, last_service_mileage) -> Car:
+    def create_glissade(current_date, last_serviced, current_mileage, last_service_mileage, tire_wear) -> Car:
         engine = WilloughbyEngine(last_service_mileage, current_mileage)
         battery = NubbinBattery(last_serviced, current_date)
+        tires = OctoprimeTires(tire_wear)
         return Car(engine, battery)
 
 
